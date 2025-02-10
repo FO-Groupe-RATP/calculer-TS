@@ -100,7 +100,7 @@ function LoginForm() {
         <strong>
           {compensation.toUpperCase() === 'NON' ? 'sans' : 'avec'}
         </strong>{' '}
-        compensation CTMR, le montant est de{' '}
+        compensation CTMR, le montant est de{' '} BRUT
         <strong>{valeur.toFixed(2)} €</strong>.
       </div>
     );
