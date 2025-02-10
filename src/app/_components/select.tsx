@@ -6,15 +6,16 @@ interface SelectProps {
   label: string;
   id: string;
   options: { value: string; label: string }[];
-  defaultValue?: string;
+  value: string; // Le type de value doit correspondre à ce que tu utilises
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Le type de onChange doit correspondre à un changement dans un élément <select>
 }
 
 const Select: React.FC<SelectProps> = ({
   label,
   id,
   options,
-  defaultValue,
-  ...props
+  value,
+  onChange,
 }) => {
   return (
     <div className="flex items-center justify-start w-full h-full max-sm:flex-col">
@@ -36,8 +37,8 @@ const Select: React.FC<SelectProps> = ({
       <div className="justify-center flex h-full w-full items-center">
         <select
           id={id}
-          defaultValue={defaultValue}
-          {...props}
+          defaultValue={value}
+          onChange={onChange}
           className={clsx(
             `
             items-center

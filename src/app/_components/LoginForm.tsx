@@ -5,7 +5,15 @@ import Button from './Button';
 import Select from './select';
 import Image from 'next/image';
 import { useState } from 'react';
-import grilles from '@/grilles.json';
+import grillesJson from '@/grilles.json';
+
+type GrilleType = {
+  [compensation: string]: {
+    [bc: string]: { [echelon: string]: string };
+  };
+};
+
+const grilles: GrilleType = grillesJson;
 
 function LoginForm() {
   const [validated, setValidated] = useState(false);
@@ -55,10 +63,9 @@ function LoginForm() {
     setValidated(true);
   };
 
-  // Réinitialise `validated` lorsque l'utilisateur modifie un champ
   const handleChange =
-    (setter: React.Dispatch<React.SetStateAction<unknown>>) =>
-    (value: unknown) => {
+    <T,>(setter: React.Dispatch<React.SetStateAction<T>>) =>
+    (value: T) => {
       setter(value);
       setValidated(false);
     };
@@ -73,7 +80,7 @@ function LoginForm() {
     }
 
     // Récupérer la valeur dynamiquement
-    const salaireStatutaireBrut = grilles[compensation]?.[bc]?.[echelon] || [];
+    const salaireStatutaireBrut = grilles[compensation]?.[bc]?.[echelon] || '0';
 
     if (salaireStatutaireBrut === undefined) {
       return (
@@ -155,7 +162,7 @@ function LoginForm() {
             id="bc"
             options={optionsBC}
             value={bc}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
               handleChange(setBc)(e.target.value)
             }
           />
@@ -164,7 +171,7 @@ function LoginForm() {
             id="echelon"
             options={optionsEchelon}
             value={echelon}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
               handleChange(setEchelon)(e.target.value)
             }
           />
@@ -173,7 +180,7 @@ function LoginForm() {
             id="compensation"
             options={optionsCompensation}
             value={compensation}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
               handleChange(setCompensation)(e.target.value)
             }
           />
