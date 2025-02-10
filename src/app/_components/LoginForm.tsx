@@ -100,7 +100,7 @@ function LoginForm() {
         <strong>
           {compensation.toUpperCase() === 'NON' ? 'sans' : 'avec'}
         </strong>{' '}
-        compensation, le montant de la prime est de{' '}
+        compensation, le montant est de{' '}
         <strong>{valeur.toFixed(2)} €</strong>.
       </div>
     );
