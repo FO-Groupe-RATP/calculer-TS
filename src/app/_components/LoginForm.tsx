@@ -176,7 +176,7 @@ function LoginForm() {
             }
           />
           <Select
-            label="Compensation :"
+            label="CTMR :"
             id="compensation"
             options={optionsCompensation}
             value={compensation}
