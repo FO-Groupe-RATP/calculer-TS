@@ -89,7 +89,7 @@ function LoginForm() {
     return (
       <div className="mt-4 p-4 bg-gray-100 rounded-lg">
         Pour un TS de <strong>{ts}</strong> min, un BC de <strong>{bc}</strong>,
-        à l'échelon <strong>{echelon}</strong>,{' '}
+        à l&apos;échelon <strong>{echelon}</strong>,{' '}
         <strong>
           {compensation.toUpperCase() === 'NON' ? 'sans' : 'avec'}
         </strong>{' '}
