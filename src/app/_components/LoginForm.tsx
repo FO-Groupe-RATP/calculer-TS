@@ -130,8 +130,8 @@ function LoginForm() {
             className="mx-auto w-auto"
             src="./LogoFO.jpg"
             alt="Logo"
-            width="160"
-            height="160"
+            width="80"
+            height="80"
           />
           <h2
             className="
