@@ -17,7 +17,7 @@ const grilles: GrilleType = grillesJson;
 
 function LoginForm() {
   const [validated, setValidated] = useState(false);
-  const [ts, setTs] = useState<number>;
+  const [ts, setTs] = useState<number>(0);
   const [bc, setBc] = useState<string>('BC1');
   const [echelon, setEchelon] = useState<string>('2');
   const [compensation, setCompensation] = useState<string>('NON');
