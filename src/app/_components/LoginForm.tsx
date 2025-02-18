@@ -151,7 +151,7 @@ function LoginForm() {
           <Input
             id="ts"
             label="TS (min) :"
-            type="number"
+            type="text" pattern="/d+"
             value={ts}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleChange(setTs)(Number(e.target.value))
