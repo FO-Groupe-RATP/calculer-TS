@@ -7,7 +7,7 @@ export function getUserId() {
 export async function postRequest(
   url: string | URL | Request,
   body: {
-    userId: string | undefined;
+    id_visiteur: string | undefined;
     ts?: number;
     bc?: string;
     echelon?: string;
