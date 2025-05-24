@@ -16,8 +16,8 @@ export async function postRequest(
     timestamp?: string;
   }
 ) {
-  if (!body.userId) {
-    body.userId = getUserId();
+  if (!body.id_visiteur) {
+    body.id_visiteur = getUserId();
   }
   body.timestamp = new Date().toISOString();
 
