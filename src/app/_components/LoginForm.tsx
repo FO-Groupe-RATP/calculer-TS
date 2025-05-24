@@ -61,7 +61,7 @@ function LoginForm() {
         setCookie('last_visit_date', today, 365);
         try {
           await postRequest('/api/newVisit', {
-            userId,
+            id_visiteur: userId,
           });
         } catch (err) {
           console.error('Erreur envoi postRequest:', err);
