@@ -4,8 +4,9 @@ import Input from './input';
 import Button from './Button';
 import Select from './select';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import grillesJson from '@/grilles.json';
+import { postRequest } from '../../../lib/utils';
 
 type GrilleType = {
   [compensation: string]: {
@@ -15,7 +16,61 @@ type GrilleType = {
 
 const grilles: GrilleType = grillesJson;
 
+// Fonction pour générer un identifiant unique
+const generateUniqueId = () => {
+  return `user-  ${Math.random().toString(36).substr(2, 9)}`;
+};
+
+// Fonction pour définir un cookie
+const setCookie = (name: string, value: string, days: number) => {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000); // Cookie valable pendant 'days' jours
+  document.cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/`;
+};
+
+// Fonction pour récupérer un cookie
+const getCookie = (name: string) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+};
+
+function formule(
+  ts: number,
+  bc: string | number,
+  echelon: string | number,
+  compensation: string | number
+) {
+  return (
+    ((ts * parseFloat(grilles[compensation][bc][echelon])) / 152 / 60) * 1.25
+  );
+}
+
 function LoginForm() {
+  useEffect(() => {
+    const fetchData = async () => {
+      let userId = getCookie('user_id');
+      if (!userId) {
+        userId = generateUniqueId();
+        setCookie('user_id', userId, 365); // expire dans 365 jours
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+      const lastVisit = getCookie('last_visit_date');
+      if (lastVisit !== today) {
+        setCookie('last_visit_date', today, 365);
+        try {
+          await postRequest('/api/newVisit', {
+            userId,
+          });
+        } catch (err) {
+          console.error('Erreur envoi postRequest:', err);
+        }
+      }
+    };
+    fetchData();
+  }, []);
+
   const [validated, setValidated] = useState(false);
   const [ts, setTs] = useState<number>(0);
   const [bc, setBc] = useState<string>('BC1');
@@ -58,9 +113,22 @@ function LoginForm() {
     { value: 'OUI', label: 'OUI' },
   ];
 
-  const validate = (event: React.FormEvent) => {
+  const validate = async (event: React.FormEvent) => {
     event.preventDefault(); // Empêche le rechargement de la page
     setValidated(true);
+
+    try {
+      await postRequest('/api/logButtonClick', {
+        id_visiteur: getCookie('user_id'),
+        ts,
+        bc,
+        echelon,
+        compensation,
+        montant: `${formule(ts, bc, echelon, compensation).toFixed(2)} €`,
+      });
+    } catch (err) {
+      console.error('Erreur envoi postRequest:', err);
+    }
   };
 
   const handleChange =
