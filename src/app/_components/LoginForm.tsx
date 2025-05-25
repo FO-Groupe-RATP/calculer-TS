@@ -60,7 +60,7 @@ function LoginForm() {
       if (lastVisit !== today) {
         setCookie('last_visit_date', today, 365);
         try {
-          await postRequest('/api/newVisit', {
+          await postRequest(process.env.VERCEL_URL + 'api/newVisit', {
             id_visiteur: userId,
           });
         } catch (err) {
@@ -118,7 +118,7 @@ function LoginForm() {
     setValidated(true);
 
     try {
-      await postRequest('/api/logButtonClick', {
+      await postRequest(process.env.VERCEL_URL + 'api/logButtonClick', {
         id_visiteur: getCookie('user_id'),
         ts,
         bc,
