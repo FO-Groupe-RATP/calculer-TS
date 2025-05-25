@@ -59,8 +59,9 @@ function LoginForm() {
       const lastVisit = getCookie('last_visit_date');
       if (lastVisit !== today) {
         setCookie('last_visit_date', today, 365);
+        console.log('api:' + process.env.ACCESS + 'api/newVisit');
         try {
-          await postRequest(process.env.VERCEL_URL + 'api/newVisit', {
+          await postRequest(process.env.ACCESS + 'api/newVisit', {
             id_visiteur: userId,
           });
         } catch (err) {
@@ -116,9 +117,9 @@ function LoginForm() {
   const validate = async (event: React.FormEvent) => {
     event.preventDefault(); // Empêche le rechargement de la page
     setValidated(true);
-
+    console.log('api:' + process.env.ACCESS + 'api/logButtonClick');
     try {
-      await postRequest(process.env.VERCEL_URL + 'api/logButtonClick', {
+      await postRequest(process.env.ACCESS + 'api/logButtonClick', {
         id_visiteur: getCookie('user_id'),
         ts,
         bc,
